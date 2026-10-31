@@ -37,6 +37,17 @@ from nvshu_phonetic import NvshuPhoneticLexicon
 
 # 初始化 FastAPI 应用
 app = FastAPI(title="Nvshu OCR API", description="女书检测与识别 API 服务")
+
+# CORS：允许本地静态页（如 docs/index.html 翻译站）跨域调用本服务。
+# 本服务仅面向本机/可信网络使用（无鉴权），allow_origins=["*"] 不新增实质风险；
+# 对公网部署请在反向代理层收紧来源或加鉴权。
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 API_VERSION = "2026-07-14-phonetic-candidate-pool"
 
 # Phonetic translation layer: Nvshu glyph -> dialect reading -> Hanzi candidate pool.
