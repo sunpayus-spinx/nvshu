@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>女书拼音 → 汉字释文</title>
-<meta name="description" content="女书拼音（江永方言读音）翻译为汉字释文，并支持图片识别女书字符——两个独立模块，页面内标注各自实现来源">
+<title>女书识别与翻译 → 汉字释文</title>
+<meta name="description" content="图片识别女书字符并释读，也支持女书拼音（江永方言读音）翻译为汉字释文——两个独立模块，页面内标注各自实现来源">
 <style>
 @font-face {
   font-family: 'NushuFont';
@@ -220,36 +220,9 @@ footer li { margin-bottom: 3px; }
     <p>输入江永方言读音（女书拼音）得汉字候选与释文；也可上传图片识别女书字符再释读——识别与翻译是两个独立模块</p>
   </header>
 
-  <!-- ============ 模块 B：翻译（拼音→汉字） ============ -->
-  <section class="card">
-    <h2>① 翻译模块 · 拼音输入 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">空格 / 斜杠 分隔音节，可带调值数字</span></h2>
-    <textarea id="input" placeholder="例如：tciou siong" spellcheck="false" autocapitalize="off"></textarea>
-    <div class="examples">
-      <span class="lbl">示例：</span>
-      <button class="ex" data-v="tciou siong">tciou siong</button>
-      <button class="ex" data-v="miong hau">miong hau</button>
-      <button class="ex" data-v="ang njie cya ciang miong tciang hau">ang njie cya ciang miong tciang hau</button>
-      <button class="ex" data-v="siong44">siong44（带调值）</button>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>释文 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">点击汉字可切换该音节候选</span></h2>
-    <div class="shiw-row">
-      <div id="shiw"><div class="empty">输入拼音后在这里生成释文……</div></div>
-      <button class="btn" id="copyBtn" style="display:none">复制释文</button>
-    </div>
-    <p class="hint">释文默认取每个音节的<b>语料常用字</b>（v4.1 语料字频最高者）拼接，仅供参考；一音多字时请按上下文点击切换、人工择定。<b>翻译层不输出模型置信度</b>，候选下方的数字是语料字频（常用度），不是概率。</p>
-  </section>
-
-  <section class="card">
-    <h2>逐音节明细 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">候选 = 字典同音字全集，按语料字频降序</span></h2>
-    <div id="details"><div class="empty">暂无内容。</div></div>
-  </section>
-
   <!-- ============ 模块 A：识别（图片→女书字符→汉字） ============ -->
   <section class="card">
-    <h2>② 识别模块 · 图片输入 <span class="modtag rec">识别：本项目字符分类模型</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
+    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：本项目字符分类模型</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
 
     <div class="srv-row">
       <input type="text" id="apiBase" value="http://127.0.0.1:8000" spellcheck="false">
@@ -285,6 +258,33 @@ footer li { margin-bottom: 3px; }
         <button class="ex" data-ns="𛆆𛉾">𛆆𛉾（两字）</button>
       </div>
     </div>
+  </section>
+
+  <!-- ============ 模块 B：翻译（拼音→汉字） ============ -->
+  <section class="card">
+    <h2>② 翻译模块 · 拼音输入 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">空格 / 斜杠 分隔音节，可带调值数字</span></h2>
+    <textarea id="input" placeholder="例如：tciou siong" spellcheck="false" autocapitalize="off"></textarea>
+    <div class="examples">
+      <span class="lbl">示例：</span>
+      <button class="ex" data-v="tciou siong">tciou siong</button>
+      <button class="ex" data-v="miong hau">miong hau</button>
+      <button class="ex" data-v="ang njie cya ciang miong tciang hau">ang njie cya ciang miong tciang hau</button>
+      <button class="ex" data-v="siong44">siong44（带调值）</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>释文 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">点击汉字可切换该音节候选</span></h2>
+    <div class="shiw-row">
+      <div id="shiw"><div class="empty">输入拼音后在这里生成释文……</div></div>
+      <button class="btn" id="copyBtn" style="display:none">复制释文</button>
+    </div>
+    <p class="hint">释文默认取每个音节的<b>语料常用字</b>（v4.1 语料字频最高者）拼接，仅供参考；一音多字时请按上下文点击切换、人工择定。<b>翻译层不输出模型置信度</b>，候选下方的数字是语料字频（常用度），不是概率。</p>
+  </section>
+
+  <section class="card">
+    <h2>逐音节明细 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">候选 = 字典同音字全集，按语料字频降序</span></h2>
+    <div id="details"><div class="empty">暂无内容。</div></div>
   </section>
 
   <!-- ============ 模块归属 ============ -->
