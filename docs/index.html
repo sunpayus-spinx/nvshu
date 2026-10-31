@@ -16,9 +16,9 @@
   --muted: #6b7683;
   --accent: #b91c1c;
   --accent-soft: #fdf0ef;
-  --line: #e6e8eb;
-  --bg: #f7f7f5;
-  --card: #ffffff;
+  --line: #e0d5bd;
+  --bg: #f4edde;
+  --card: #fffdf8;
   --ok: #1a7f4e;
   --ok-soft: #e9f6ef;
   --warn: #9a6b00;
@@ -27,11 +27,36 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 900px 600px at 12% 8%, rgba(186,150,96,.08), transparent 60%),
+    radial-gradient(ellipse 800px 700px at 88% 92%, rgba(150,116,72,.07), transparent 60%),
+    repeating-linear-gradient(102deg, rgba(122,92,54,.016) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(8deg, rgba(122,92,54,.012) 0 3px, transparent 3px 7px),
+    var(--bg);
   color: var(--ink);
   font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, sans-serif;
   line-height: 1.7;
   font-size: 15px;
+}
+/* 女书字符水印：竖排两列，纤长字形衬宣纸底；pointer-events:none 不挡操作 */
+body::after, body::before {
+  content: "𛅰𛆼𛊺𛋕𛋤𛅱𛅲𛅳";
+  position: fixed;
+  writing-mode: vertical-rl;
+  font-family: 'NushuFont', serif;
+  font-size: 46px;
+  letter-spacing: 22px;
+  color: rgba(88, 66, 38, .07);
+  pointer-events: none;
+  z-index: 30;
+  user-select: none;
+}
+body::after { top: 7%; right: 2.2%; }
+body::before {
+  content: "𛅴𛅵𛅶𛅷𛅸𛅹𛅺𛆀";
+  top: auto; bottom: 6%; left: 2.2%; right: auto;
+  font-size: 34px; letter-spacing: 16px;
+  color: rgba(88, 66, 38, .055);
 }
 .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 60px; }
 header { text-align: center; margin-bottom: 28px; }
@@ -43,7 +68,7 @@ header p { color: var(--muted); margin: 0; font-size: 14px; }
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: 12px;
   padding: 22px 24px; margin-bottom: 18px;
-  box-shadow: 0 1px 3px rgba(20, 30, 40, .04);
+  box-shadow: 0 2px 8px rgba(120, 92, 48, .08);
 }
 .card h2 {
   font-size: 15px; margin: 0 0 12px; font-weight: 600;
