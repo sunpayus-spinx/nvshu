@@ -222,7 +222,7 @@ footer li { margin-bottom: 3px; }
 
   <!-- ============ 模块 A：识别（图片→女书字符→汉字） ============ -->
   <section class="card">
-    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：本项目字符分类模型</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
+    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：本项目字符分类模型（低置信回退 TrOCR）</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
 
     <div class="srv-row">
       <input type="text" id="apiBase" value="http://127.0.0.1:8000" spellcheck="false">
@@ -295,7 +295,7 @@ footer li { margin-bottom: 3px; }
       <tr>
         <td><span class="modtag rec">识别</span><br>图片 → 女书字符</td>
         <td>本项目自训字符分类模型<br>（ResNet-18，130 类女书 Unicode 字符）</td>
-        <td>经本地推理服务运行（server.py）。每字输出 softmax 概率作为<b>识别置信度</b>（真概率）；服务端阈值 0.80，低于该值标「置信不足」。检测切字为传统视觉兜底（无专用检测模型），建议上传已切分字块或清晰单行图。</td>
+        <td>经本地推理服务运行（server.py）。<b>主力</b>：本项目自训 ResNet-18 分类模型；<b>低置信（&lt;0.80）时回退/融合 Microsoft TrOCR</b>（第三方，transformers）。每字输出 softmax 概率作为<b>识别置信度</b>（真概率）；响应字段 rec_mode 标明该字实际出自哪条路（char_cls / fusion_tta / trocr_fallback）。检测切字为传统视觉兜底（投影+连通域，无专用检测模型），建议上传已切分字块或清晰单行图。</td>
       </tr>
       <tr>
         <td><span class="modtag tr">翻译</span><br>女书字符 / 拼音 → 汉字候选</td>
@@ -308,7 +308,7 @@ footer li { margin-bottom: 3px; }
   <footer>
     <b>口径说明（请先读）</b>
     <ul>
-      <li><b>识别置信度</b>（图片模块）：字符分类模型的 softmax 概率，真概率口径；低于 0.80 标「置信不足」，建议换更清晰的样本或人工复核。</li>
+      <li><b>识别置信度</b>（图片模块）：主力路径为字符分类模型的 softmax 概率（真概率口径）；低置信时自动回退/融合 Microsoft TrOCR（第三方），此时分值口径略有差异，结果的 rec_mode 字段会标明实际识别路径。低于 0.80 标「置信不足」，建议换更清晰的样本或人工复核。</li>
       <li><b>翻译候选</b>（拼音/字符模块）：来自词典同音字集合，<b>不是排序结果，也不带置信度</b>；排序按 v4.1 语料字频降序（常用度先验），数字为该字在 6,726 行语料中的出现次数。一音多字请人工择定。</li>
       <li>读音为字典推导的江永方言代表发音（非原书注音）；输入的调值数字（如 44、35）会自动剥离。</li>
       <li>字典未收录的读音会标出「未收录」；已收录读音的候选也可能不含你想要的字，需人工判断。</li>
@@ -512,7 +512,7 @@ function renderRecChain(data) {
   }
   let html = '<div class="chain">';
   html += '<div class="chain-step"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
-          '<span class="modtag rec">识别：本项目字符分类模型</span>' +
+          '<span class="modtag rec">识别：本项目字符分类模型（低置信回退 TrOCR）</span>' +
           '<span style="font-size:12px;color:var(--muted)">检测来源 ' + esc(data.det_source || '-') + '，共 ' + items.length + ' 字</span></div>';
   items.forEach(function (it) {
     const conf = it.confidence || 0;
@@ -520,7 +520,7 @@ function renderRecChain(data) {
     html += '<div class="rec-item">' +
       '<span class="rec-glyph">' + esc(it.text || '？') + '</span>' +
       '<span class="rec-uni">' + esc(uni) + '</span>' +
-      '<span class="conf-pill ' + confClass(conf) + '" title="识别置信度 = 分类模型 softmax 概率（真概率口径）；服务端阈值 0.80">识别置信度 ' + confPct(conf) + '</span>' +
+      '<span class="conf-pill ' + confClass(conf) + '" title="识别置信度：分类模型 softmax 概率（真概率口径）；低置信回退 TrOCR 时为生成式相对分值。服务端阈值 0.80">识别置信度 ' + confPct(conf) + '</span>' +
       (it.needs_review ? '<span class="conf-pill low" title="低于服务端阈值 0.80，建议人工复核">置信不足</span>' : '') +
       '<span class="rec-flow">读音 <b>' + esc(it.pinyin || '-') + '</b></span>' +
       '</div>';
