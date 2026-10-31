@@ -1,0 +1,85 @@
+{
+ "main_rows": 6726,
+ "dup_groups": 459,
+ "dup_rows": 1020,
+ "dup_type_stat": {
+  "套语重唱": 246,
+  "两书互证": 198,
+  "疑似抽取双计": 15
+ },
+ "page_stat": {
+  "exact": 5677,
+  "cross_book_claim(未作单页一致断言)": 268,
+  "fuzzy_minor(ed<=2,可接受)": 574,
+  "simpnorm_punct": 64,
+  "truncated_window": 135,
+  "content_mismatch": 8
+ },
+ "mismatch_lines": [
+  238,
+  474,
+  1078,
+  4257,
+  4260,
+  4292,
+  4655,
+  5076
+ ],
+ "mismatch_detail": [
+  [
+   238,
+   "侍奉六親回高陪",
+   "清早回生来放女"
+  ],
+  [
+   474,
+   "保佑光輝沒星神",
+   "眼前光輝易遍"
+  ],
+  [
+   1078,
+   "只怨玉皇制口礼",
+   "只要交头煞得尾"
+  ],
+  [
+   4257,
+   "上身剥了鼠毛衫",
+   "鼠毛衫尼绒类背"
+  ],
+  [
+   4260,
+   "她娘上楼看女儿",
+   "女儿两脚一端"
+  ],
+  [
+   4292,
+   "侬是同宗亲发血",
+   "我身回家是所取"
+  ],
+  [
+   4655,
+   "盛碗刮饭倒个汤",
+   "野哥嫌台煮饭生"
+  ],
+  [
+   5076,
+   "去一程来口口口",
+   "去程来广"
+  ]
+ ],
+ "claim_relabeled": 8,
+ "has_missing_glyph_rows": 89,
+ "nushu_incomplete_rows": 1337,
+ "reading_attested_rows": 66,
+ "heldout_overlap_rows": 11,
+ "train_C": {
+  "before": 7136,
+  "after": 7087,
+  "dropped": 49
+ },
+ "train_B": {
+  "before": 7556,
+  "after": 7507,
+  "dropped": 49
+ }
+}

@@ -1,0 +1,14 @@
+# NuShuPARS Web 服务最小依赖（CPU 版；GPU 机器另跑 install_cuda_torch 装 CUDA torch）
+# PyPI 慢时加镜像: pip install -i https://mirrors.aliyun.com/pypi/simple/ -r requirements_web.txt
+fastapi
+uvicorn
+python-multipart
+pillow
+numpy<2
+opencv-python-headless
+PyYAML
+torch
+torchvision
+transformers
+huggingface_hub
+ultralytics==8.0.196

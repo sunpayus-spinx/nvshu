@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite the NuShuPARS paper."
+title: "NuShuPARS: Intelligent Assisted Interpretation of Nüshu Poetry Based on Jiangyong Dialect Pronunciation"
+type: software
+authors:
+  - family-names: "陈"
+    given-names: "灵韫"
+  - family-names: "李"
+    given-names: "桐"
+  - family-names: "毛"
+    given-names: "腾跃"
+version: "1.0.0"
+date-released: "2026-10-31"
+license: MIT
+repository-code: "https://github.com/PLACEHOLDER/NuShuPARS"
+abstract: >-
+  NuShuPARS is a research prototype for assisted interpretation of Nüshu
+  (women's script) poetry via Jiangyong dialect pronunciation: Nushu glyph
+  -> dialect reading -> Hanzi candidate pool -> semantic ranking. The
+  dataset in this repository is a pointer version (metadata, readings and
+  SHA-256 pointers only; copyrighted translation text is not included).
+keywords:
+  - Nüshu
+  - endangered scripts
+  - Jiangyong dialect
+  - low-resource NLP
+  - cultural heritage
+preferred-citation:
+  type: conference-paper
+  title: "NuShuPARS: Intelligent Assisted Interpretation of Nüshu Poetry Based on Jiangyong Dialect Pronunciation"
+  authors:
+    - family-names: "Chen"
+      given-names: "Lingyun"
+    - family-names: "Li"
+      given-names: "Tong"
+    - family-names: "Mao"
+      given-names: "Tengyue"
+  collection-title: "Proceedings of the 2026 International Conference on Artificial Intelligence, Virtual Reality and Cultural Heritage (AIVRCH 2026)"
+  year: 2026
+  notes: "Accepted; to appear in EI Compendex / Scopus indexed proceedings."

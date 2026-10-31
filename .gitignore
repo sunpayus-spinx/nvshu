@@ -1,0 +1,16 @@
+# NuShuPARS release repository
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log
+.DS_Store
+Thumbs.db
+
+# 大文件/权重不走 git（本仓库已只含 45MB 分类模型，GitHub 单文件 <100MB）
+*.safetensors
+*.onnx
+*.engine
+trocr_model*/
+models_cache/
+yolov8*.pt

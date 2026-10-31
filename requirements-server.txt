@@ -1,0 +1,17 @@
+# NuShuPARS 服务端依赖（锁定为实测环境版本，Python 3.11）
+# translate_cli.py 零依赖，不装本文件也能用。
+# PyPI 慢时加镜像: pip install -i https://mirrors.aliyun.com/pypi/simple/ -r requirements-server.txt
+torch==2.13.0
+torchvision==0.28.0
+fastapi==0.141.1
+uvicorn==0.52.4
+python-multipart==0.0.32
+transformers==5.14.1
+pillow==11.3.0
+numpy==2.3.5
+opencv-python==5.0.0.93
+pyyaml==6.0.3
+protobuf==7.35.1
+
+# 可选：YOLO 检测路径（AGPL-3.0，见 NOTICE.md；不装则自动退化为投影/连通域切字）
+# ultralytics==8.4.96
