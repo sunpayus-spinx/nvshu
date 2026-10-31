@@ -222,7 +222,7 @@ footer li { margin-bottom: 3px; }
 
   <!-- ============ 模块 A：识别（图片→女书字符→汉字） ============ -->
   <section class="card">
-    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：自训分类权重（开源骨干）+ TrOCR 兜底</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
+    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：第三方开源方案</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
 
     <div class="srv-row">
       <input type="text" id="apiBase" value="http://127.0.0.1:8000" spellcheck="false">
@@ -262,7 +262,7 @@ footer li { margin-bottom: 3px; }
 
   <!-- ============ 模块 B：翻译（拼音→汉字） ============ -->
   <section class="card">
-    <h2>② 翻译模块 · 拼音输入 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">空格 / 斜杠 分隔音节，可带调值数字</span></h2>
+    <h2>② 翻译模块 · 拼音输入 <span class="tag">空格 / 斜杠 分隔音节，可带调值数字</span></h2>
     <textarea id="input" placeholder="例如：tciou siong" spellcheck="false" autocapitalize="off"></textarea>
     <div class="examples">
       <span class="lbl">示例：</span>
@@ -274,7 +274,7 @@ footer li { margin-bottom: 3px; }
   </section>
 
   <section class="card">
-    <h2>释文 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">点击汉字可切换该音节候选</span></h2>
+    <h2>释文 <span class="tag">点击汉字可切换该音节候选</span></h2>
     <div class="shiw-row">
       <div id="shiw"><div class="empty">输入拼音后在这里生成释文……</div></div>
       <button class="btn" id="copyBtn" style="display:none">复制释文</button>
@@ -283,26 +283,42 @@ footer li { margin-bottom: 3px; }
   </section>
 
   <section class="card">
-    <h2>逐音节明细 <span class="modtag tr">翻译：本项目音韵词典模块</span> <span class="tag">候选 = 字典同音字全集，按语料字频降序</span></h2>
+    <h2>逐音节明细 <span class="tag">候选 = 字典同音字全集，按语料字频降序</span></h2>
     <div id="details"><div class="empty">暂无内容。</div></div>
   </section>
 
-  <!-- ============ 模块归属 ============ -->
+  <!-- ============ 第三方来源标注 ============ -->
   <section class="card">
-    <h2>模块与来源标注 <span class="tag">谁的模块实现什么功能</span></h2>
+    <h2>第三方来源标注 <span class="tag">本页用到的开源组件与第三方数据（非本项目工作）</span></h2>
     <table class="modtab">
-      <tr><th style="width:26%">功能</th><th style="width:34%">实现模块</th><th>来源 / 口径</th></tr>
+      <tr><th style="width:26%">用在哪</th><th style="width:34%">第三方组件 / 数据</th><th>来源与许可</th></tr>
       <tr>
-        <td><span class="modtag rec">识别</span><br>图片 → 女书字符</td>
-        <td>本项目<b>训练</b>的字符分类模型<br>（torchvision ResNet-18 骨干，130 类女书 Unicode 字符）</td>
-        <td>经本地推理服务运行（server.py）。<b>分类权重为本项目自训</b>（scripts/train/train_char_cls.py 产出）；但<b>骨干架构、ImageNet 预训练初始化与训练图像均来自开源</b>（torchvision ResNet-18，训练脚本默认加载 ImageNet 预训练权重；训练图为《女书标准字字典》《女书规范字书法字帖》等开源女书字图 + Noto 字体合成图）。<b>低置信（&lt;0.80）时回退/融合 Microsoft TrOCR</b>（第三方开源）。每字输出 softmax 概率作为<b>识别置信度</b>（真概率）；响应字段 rec_mode 标明该字实际出自哪条路（char_cls / fusion_tta / trocr_fallback）。检测切字为传统视觉兜底（投影+连通域，自写）；YOLO 路径为 Ultralytics 开源（COCO 权重不认女书字形，实际不生效），建议上传已切分字块或清晰单行图。</td>
+        <td>图片识别 · 检测切字</td>
+        <td>YOLOv8（Ultralytics）</td>
+        <td>AGPL-3.0，可选检测路径（懒加载）；本包不含女书检测权重，实际切字走投影/连通域兜底。详见 NOTICE.md。</td>
       </tr>
       <tr>
-        <td><span class="modtag tr">翻译</span><br>女书字符 / 拼音 → 汉字候选</td>
-        <td>本项目音韵词典模块<br>（读音归一 + 同音字候选池）</td>
-        <td>词典数据源自 <b>unicode_nushu</b> 字典（MIT 许可，The Nushu Coder's Group）。候选为同音字全集，<b>无模型置信度</b>；页面显示的数字为 v4.1 语料字频（常用度先验），不是概率。</td>
+        <td>图片识别 · 字符分类</td>
+        <td>ResNet-18（torchvision）</td>
+        <td>BSD-style；130 类女书 Unicode 字符分类的骨干架构与预训练初始化来自 torchvision。</td>
+      </tr>
+      <tr>
+        <td>图片识别 · 低置信回退</td>
+        <td>TrOCR（Microsoft）</td>
+        <td>MIT（transformers）；分类置信度 &lt;0.80 时回退/融合，rec_mode 字段标明实际识别路径。</td>
+      </tr>
+      <tr>
+        <td>翻译 · 同音字候选</td>
+        <td>unicode_nushu 词典数据</td>
+        <td>MIT，The Nushu Coder's Group。</td>
+      </tr>
+      <tr>
+        <td>页面显示 · 女书字体</td>
+        <td>Noto Traditional Nushu</td>
+        <td>OFL 许可。</td>
       </tr>
     </table>
+    <p class="hint" style="margin-top:10px">识别置信度、候选字频等技术口径见页脚说明。</p>
   </section>
 
   <footer>
@@ -512,7 +528,7 @@ function renderRecChain(data) {
   }
   let html = '<div class="chain">';
   html += '<div class="chain-step"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
-          '<span class="modtag rec">识别：自训分类权重（开源骨干）+ TrOCR 兜底</span>' +
+          '<span class="modtag rec">识别：第三方开源方案</span>' +
           '<span style="font-size:12px;color:var(--muted)">检测来源 ' + esc(data.det_source || '-') + '，共 ' + items.length + ' 字</span></div>';
   items.forEach(function (it) {
     const conf = it.confidence || 0;
@@ -527,10 +543,10 @@ function renderRecChain(data) {
   });
   html += '</div>';
 
-  html += '<div class="chain-arrow">↓ 翻译模块（本项目音韵词典模块 · 词典数据 unicode_nushu / MIT）</div>';
+  html += '<div class="chain-arrow">↓ 翻译模块（词典数据：unicode_nushu / MIT）</div>';
 
   html += '<div class="chain-step"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
-          '<span class="modtag tr">翻译：本项目音韵词典模块</span></div>';
+          '</div>';
   items.forEach(function (it) {
     const cands = (it.candidates && it.candidates.length) ? it.candidates : [];
     let candHtml = cands.slice(0, 12).map(function (c) {
@@ -598,7 +614,6 @@ function renderManual() {
   }
   let html = '<div class="chain"><div class="chain-step">' +
     '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
-    '<span class="modtag tr">翻译：本项目音韵词典模块</span>' +
     '<span style="font-size:12px;color:var(--muted)">手动字符输入 · 无识别环节</span></div>';
   chars.forEach(function (ch) {
     const n = N2R[ch];

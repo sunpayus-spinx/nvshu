@@ -63,7 +63,7 @@ python translate_cli.py --reading "tciou siong" --json
 
 - **翻译模块**（拼音/女书字符 → 汉字候选）：纯前端离线运行，词典与女书字体内嵌，输入不上传任何服务器；候选标注语料字频（常用度先验，非置信度）。
 - **识别模块**（图片 → 女书字符 → 汉字候选）：需先启动本仓库的本地服务（见下一节），页面内填 `http://127.0.0.1:8000` 并「检测识别服务」即用；每字输出 **softmax 识别置信度**（真概率）。
-- 页面底部有**模块与来源标注表**：识别 = 第三方开源方案集成（Ultralytics YOLOv8 切字 + torchvision ResNet-18 分类 + Microsoft TrOCR 回退），本项目未自研识别算法；翻译 = 本项目音韵词典模块（词典数据源自 unicode_nushu，MIT）。
+- 页面底部有**第三方来源标注表**（只标注非本项目的内容）：识别链 = 开源组件集成（Ultralytics YOLOv8 切字 + torchvision ResNet-18 分类 + Microsoft TrOCR 回退）；词典数据 = unicode_nushu（MIT）；女书字体 = Noto Traditional Nushu（OFL）。翻译功能本身为本页自带实现，不另标注。
 
 ## 完整服务（可选，需 torch 环境）
 
