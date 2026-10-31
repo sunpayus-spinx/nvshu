@@ -12,7 +12,7 @@ authors:
 version: "1.0.0"
 date-released: "2026-10-31"
 license: MIT
-repository-code: "https://github.com/PLACEHOLDER/NuShuPARS"
+repository-code: "https://github.com/sunpayus-spinx/nvshu"
 abstract: >-
   NuShuPARS is a research prototype for assisted interpretation of Nüshu
   (women's script) poetry via Jiangyong dialect pronunciation: Nushu glyph
