@@ -36,5 +36,6 @@
 
 ## 模型权重
 
-`models/nushu_unicode_best.pt` 与 `models/semantic_*` 为本项目训练产出，随代码同按 MIT 发布
-（训练数据的版权约束不因此转移至模型使用者，但请遵守数据卡中的使用限制精神）。
+`models/nushu_unicode_best.pt` 与 `models/semantic_*` 为本项目训练产出（在自有/开源女书字图数据上训练的权重），随代码同按 MIT 发布。
+注意区分**权重**与**骨架**：分类模型的骨干架构为 torchvision ResNet-18（BSD-style，见上表），训练脚本默认以 ImageNet 预训练权重初始化（可 `--no-pretrained` 关闭）——架构与预训练初始化来自开源生态，**微调后的权重是本项目产出**。
+训练数据的版权约束不因此转移至模型使用者，但请遵守数据卡中的使用限制精神。

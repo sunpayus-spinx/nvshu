@@ -222,7 +222,7 @@ footer li { margin-bottom: 3px; }
 
   <!-- ============ 模块 A：识别（图片→女书字符→汉字） ============ -->
   <section class="card">
-    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：本项目字符分类模型（低置信回退 TrOCR）</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
+    <h2>① 识别模块 · 图片输入 <span class="modtag rec">识别：自训分类权重（开源骨干）+ TrOCR 兜底</span> <span class="tag">图片→女书字符→读音→汉字候选</span></h2>
 
     <div class="srv-row">
       <input type="text" id="apiBase" value="http://127.0.0.1:8000" spellcheck="false">
@@ -294,8 +294,8 @@ footer li { margin-bottom: 3px; }
       <tr><th style="width:26%">功能</th><th style="width:34%">实现模块</th><th>来源 / 口径</th></tr>
       <tr>
         <td><span class="modtag rec">识别</span><br>图片 → 女书字符</td>
-        <td>本项目自训字符分类模型<br>（ResNet-18，130 类女书 Unicode 字符）</td>
-        <td>经本地推理服务运行（server.py）。<b>主力</b>：本项目自训 ResNet-18 分类模型；<b>低置信（&lt;0.80）时回退/融合 Microsoft TrOCR</b>（第三方，transformers）。每字输出 softmax 概率作为<b>识别置信度</b>（真概率）；响应字段 rec_mode 标明该字实际出自哪条路（char_cls / fusion_tta / trocr_fallback）。检测切字为传统视觉兜底（投影+连通域，无专用检测模型），建议上传已切分字块或清晰单行图。</td>
+        <td>本项目<b>训练</b>的字符分类模型<br>（torchvision ResNet-18 骨干，130 类女书 Unicode 字符）</td>
+        <td>经本地推理服务运行（server.py）。<b>分类权重为本项目自训</b>（scripts/train/train_char_cls.py 产出）；但<b>骨干架构、ImageNet 预训练初始化与训练图像均来自开源</b>（torchvision ResNet-18，训练脚本默认加载 ImageNet 预训练权重；训练图为《女书标准字字典》《女书规范字书法字帖》等开源女书字图 + Noto 字体合成图）。<b>低置信（&lt;0.80）时回退/融合 Microsoft TrOCR</b>（第三方开源）。每字输出 softmax 概率作为<b>识别置信度</b>（真概率）；响应字段 rec_mode 标明该字实际出自哪条路（char_cls / fusion_tta / trocr_fallback）。检测切字为传统视觉兜底（投影+连通域，自写）；YOLO 路径为 Ultralytics 开源（COCO 权重不认女书字形，实际不生效），建议上传已切分字块或清晰单行图。</td>
       </tr>
       <tr>
         <td><span class="modtag tr">翻译</span><br>女书字符 / 拼音 → 汉字候选</td>
@@ -308,7 +308,7 @@ footer li { margin-bottom: 3px; }
   <footer>
     <b>口径说明（请先读）</b>
     <ul>
-      <li><b>识别置信度</b>（图片模块）：主力路径为字符分类模型的 softmax 概率（真概率口径）；低置信时自动回退/融合 Microsoft TrOCR（第三方），此时分值口径略有差异，结果的 rec_mode 字段会标明实际识别路径。低于 0.80 标「置信不足」，建议换更清晰的样本或人工复核。</li>
+      <li><b>识别置信度</b>（图片模块）：主力路径为字符分类模型的 softmax 概率（真概率口径）；低置信时自动回退/融合 Microsoft TrOCR（第三方），此时分值口径略有差异，结果的 rec_mode 字段会标明实际识别路径。低于 0.80 标「置信不足」，建议换更清晰的样本或人工复核。分类权重为本项目自训，骨干架构（torchvision ResNet-18）、ImageNet 预训练初始化与训练图像来自开源资源。</li>
       <li><b>翻译候选</b>（拼音/字符模块）：来自词典同音字集合，<b>不是排序结果，也不带置信度</b>；排序按 v4.1 语料字频降序（常用度先验），数字为该字在 6,726 行语料中的出现次数。一音多字请人工择定。</li>
       <li>读音为字典推导的江永方言代表发音（非原书注音）；输入的调值数字（如 44、35）会自动剥离。</li>
       <li>字典未收录的读音会标出「未收录」；已收录读音的候选也可能不含你想要的字，需人工判断。</li>
@@ -512,7 +512,7 @@ function renderRecChain(data) {
   }
   let html = '<div class="chain">';
   html += '<div class="chain-step"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
-          '<span class="modtag rec">识别：本项目字符分类模型（低置信回退 TrOCR）</span>' +
+          '<span class="modtag rec">识别：自训分类权重（开源骨干）+ TrOCR 兜底</span>' +
           '<span style="font-size:12px;color:var(--muted)">检测来源 ' + esc(data.det_source || '-') + '，共 ' + items.length + ' 字</span></div>';
   items.forEach(function (it) {
     const conf = it.confidence || 0;
