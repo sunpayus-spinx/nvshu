@@ -7,6 +7,7 @@
 > 从本仓库启动时：① `NVSHU_CHARCLS_CKPT` 可省略——server 会自动探测 `models/nushu_unicode_best.pt`；
 > ② TrOCR 权重缺失时服务**仍可启动**（已打容错补丁），仅视觉回退不可用；③ 第 0 节清单中仅需部署仓库内文件。
 > 需要完整视觉链（TrOCR 回退）时，自行准备微调权重目录并设 `NVSHU_REC_MODEL_DIR`。其余步骤照旧。
+> 注意：`test_char.png` 为 Noto 字体渲染样本，与分类模型训练字形风格有差异，识别结果可能与目标码位不一致——冒烟测试只验证链路通畅与 Unicode 输出（不应出现 ASCII 乱码），不作为字准依据。
 
 ---
 
